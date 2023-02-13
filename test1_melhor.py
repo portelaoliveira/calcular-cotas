@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
+
 def linear_interpolation(x, y, x_new):
     """Função para realizar a interpolação linear entre dois pontos dados."""
     # Cálculo da reta
