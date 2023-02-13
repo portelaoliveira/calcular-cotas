@@ -35,4 +35,4 @@ def get_values(datas: list) -> list:
 if __name__ == "__main__":
     datas = read_file("dados.txt")
     id, elevations, distances = get_values(datas)
-    print(id)
+    print(elevations)
