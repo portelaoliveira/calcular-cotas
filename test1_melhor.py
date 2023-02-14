@@ -60,17 +60,24 @@ print("Posição (m)\tCota (m)")
 for i in range(len(x_new)):
     print("{}\t\t{}".format(x_new[i], y_new[i]))
 
-# Gráfico das cotas medidas e calculadas
-# plt.figure(1)
-# plt.plot(x, y, "ro", label="Medidas")
-# # plt.plot(x_new, y_new, "ro", label="pontos intermediários")
-# plt.show()
 
-plt.subplot(1, 1, 1)
-plt.plot(x, y, "ko-")
-plt.plot(x_new, y_new, "ro")
-plt.xlabel("Distância (m)")
-plt.ylabel("Valor de cota (m)")
-plt.grid(True)
-plt.savefig("topographic", dpi=500)
-plt.close("all")
+def gen_plot(x, y, x_new, y_new):
+    
+    fig, (ax1, ax2) = plt.subplots(1, 2)
+    fig.suptitle("Gráfico das cotas iniciais e intermediárias", fontsize=16)
+    ax1.plot(x, y, "ko--")
+    ax1.set_title("Cota dos pontos iniciais")
+    ax1.set_xlabel("Distância (m)")
+    ax1.set_ylabel("Valor da cota (m)")
+
+    ax2.plot(x_new, y_new, "mo--")
+    ax2.set_title("Cota dos pontos intermediários")
+    ax2.set_xlabel("Distância (m)")
+    ax2.set_ylabel("Valor da cota (m")
+
+    ax1.grid()
+    ax2.grid()
+    fig.savefig("topographic1", dpi=500)
+
+
+gen_plot(x, y, x_new, y_new)
