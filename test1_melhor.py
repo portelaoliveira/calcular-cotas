@@ -50,6 +50,7 @@ x = [0, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
 y = [382, 766, 796, 187, 490, 446, 647, 710, 755, 277, 480]
 spacing = 20
 option = "topographic"
+# option = "horizontal"
 
 # Cálculo das cotas dos pontos intermediários
 x_new, y_new = calculate_cotas(x, y, spacing, option)
@@ -71,5 +72,5 @@ plt.plot(x_new, y_new, "ro")
 plt.xlabel("Distância (m)")
 plt.ylabel("Valor de cota (m)")
 plt.grid(True)
-plt.savefig("bora", dpi=500)
+plt.savefig("topographic", dpi=500)
 plt.close("all")
