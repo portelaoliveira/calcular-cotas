@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import math
 
 
-def read_file(filename: str) -> list:
+def read_file(filename: str) -> list[float]:
     """
     Função para ler arquivos .txt
 
@@ -16,7 +16,7 @@ def read_file(filename: str) -> list:
     return datas
 
 
-def get_values(datas: list) -> list:
+def get_values(datas: list[float]) -> list[float]:
     """
     Função para pegar os valores do arquivo .txt
 
@@ -39,7 +39,9 @@ def get_values(datas: list) -> list:
     return id, elevations, distances
 
 
-def calculate_angles(elevations: list, horizontal_distance: int = 100):
+def calculate_angles(
+    elevations: list[float], horizontal_distance: int = 100
+) -> list[float]:
     """
     Função para calcular o ângulo entre os pontos
 
@@ -77,9 +79,20 @@ def calculate_angles(elevations: list, horizontal_distance: int = 100):
     return angles
 
 
+def gen_plot(x_axis: list[float], y_axis: list[float], name_figure: str):
+    plt.figure(1)
+    plt.subplot(1, 1, 1)
+    plt.plot(x_axis, y_axis, "ko-")
+    plt.xlabel("Distância (m)")
+    plt.ylabel("Valor de cota (m)")
+    plt.grid(True)
+    plt.savefig(name_figure, dpi=500)
+    plt.close("all")
+
+
 if __name__ == "__main__":
     datas = read_file("dados.txt")
     id, elevations, distances = get_values(datas)
     angles = calculate_angles(elevations)
-    print(angles)
+    # print(angles)
     # print(elevations)
