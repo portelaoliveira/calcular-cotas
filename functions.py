@@ -83,9 +83,7 @@ def calculate_angles(
     return angles
 
 
-def cubic_spline(
-    x: list | np.ndarray, x0: list | np.ndarray, y0: list | np.ndarray
-) -> list[float]:
+def cubic_spline(x, x0, y0) -> list[float]:
     """
     Função para calcular o ângulo entre os pontos
 
@@ -94,8 +92,6 @@ def cubic_spline(
     - y0: lista ou array contendo os valores de y referentes a x0
     - retorna uma lista dos valores de y interpolados a partir de x0 e y0
     """
-
-    # return CubicSpline(x0,y0,bc_type='natural')(x).tolist()
 
     x0 = np.asfarray(x0)
     y0 = np.asfarray(y0)
@@ -120,7 +116,7 @@ def cubic_spline(
     for i in range(N - 2, -1, -1):
         z[i] = z[i] - w[i] * z[i + 1]
 
-    # find index (it requires x is already sorted)
+    # encontrar índice (requer x já está classificado)
     index = x0.searchsorted(x)
     np.clip(index, 1, N - 1, index)
 
@@ -129,7 +125,7 @@ def cubic_spline(
     zi1, zi0 = z[index], z[index - 1]
     hi1 = xi1 - xi0
 
-    # calculate cubic
+    # calcular cúbico
     y = (
         zi0 / (6 * hi1) * (xi1 - x) ** 3
         + zi1 / (6 * hi1) * (x - xi0) ** 3
@@ -139,7 +135,16 @@ def cubic_spline(
     return y
 
 
-def calculate_elevation_to_distance_20m(elevations, angles):
+def calculate_elevation_to_distance_20m(
+    elevations: list[float], angles: list[float]
+) -> list[float]:
+    """
+    Função para calcular as novas cotas para a distância horizontal em 20 m.
+
+    - elevations: valores das cotas iniciais;
+    - angles: ângulos calculados entre cada ponto das cotas iniciais.
+    """
+
     anv = (math.tan(math.radians(angles[0]))) * (20) + int(elevations[0])
     bnv = (math.tan(math.radians(angles[0]))) * (20) + int(anv)
     cnv = (math.tan(math.radians(angles[0]))) * (20) + int(bnv)
@@ -181,9 +186,50 @@ def calculate_elevation_to_distance_20m(elevations, angles):
     vvn = (math.tan(math.radians(angles[9]))) * (20) + int(uun)
     wwn = (math.tan(math.radians(angles[9]))) * (20) + int(vvn)
 
-    distances = list(range(20, 1000, 20))
+    new_distances_20m = [
+        20,
+        40,
+        60,
+        80,
+        120,
+        140,
+        160,
+        180,
+        220,
+        240,
+        260,
+        280,
+        320,
+        340,
+        360,
+        380,
+        420,
+        440,
+        460,
+        480,
+        520,
+        540,
+        560,
+        580,
+        620,
+        640,
+        660,
+        680,
+        720,
+        740,
+        760,
+        780,
+        820,
+        840,
+        860,
+        880,
+        920,
+        940,
+        960,
+        980,
+    ]
 
-    new_elevations = [
+    new_elevations_to_20m = [
         anv,
         bnv,
         cnv,
@@ -226,12 +272,123 @@ def calculate_elevation_to_distance_20m(elevations, angles):
         wwn,
     ]
 
-    return new_elevations, distances
+    return new_elevations_to_20m, new_distances_20m
 
 
-def gen_plot(x_axis: list[float], y_axis: list[float], name_figure: str):
+def calculate_elevation_to_distance_25m(
+    elevations: list[float], angles: list[float]
+) -> list[float]:
     """
-    Função para gerar e salvar gráficos no formato png
+    Função para calcular as novas cotas para a distância horizontal em 25 m.
+
+    - elevations: valores das cotas iniciais;
+    - angles: ângulos calculados entre cada ponto das cotas iniciais.
+    """
+
+    anv = (math.tan(math.radians(angles[0]))) * (25) + int(elevations[0])
+    bnv = (math.tan(math.radians(angles[0]))) * (25) + int(anv)
+    cnv = (math.tan(math.radians(angles[0]))) * (25) + int(bnv)
+    env = (math.tan(math.radians(angles[1]))) * (25) + int((elevations[1]))
+    fnv = (math.tan(math.radians(angles[1]))) * (25) + int(env)
+    gnv = (math.tan(math.radians(angles[1]))) * (25) + int(fnv)
+    inv = (math.tan(math.radians(angles[2]))) * ((-25) * (-1)) + int(elevations[2])
+    jnv = (math.tan(math.radians(angles[2]))) * ((-25) * (-1)) + int(inv)
+    knv = (math.tan(math.radians(angles[2]))) * ((-25) * (-1)) + int(jnv)
+    mnv = (math.tan(math.radians(angles[3]))) * (25) + int(elevations[3])
+    nnv = (math.tan(math.radians(angles[3]))) * (25) + int(mnv)
+    onv = (math.tan(math.radians(angles[3]))) * (25) + int(nnv)
+    qnv = (math.tan(math.radians(angles[4]))) * ((-25) * (-1)) + int(elevations[4])
+    rnv = (math.tan(math.radians(angles[4]))) * ((-25) * (-1)) + int(qnv)
+    snv = (math.tan(math.radians(angles[4]))) * ((-25) * (-1)) + int(rnv)
+    unv = (math.tan(math.radians(angles[5]))) * (25) + int(elevations[5])
+    vnv = (math.tan(math.radians(angles[5]))) * (25) + int(unv)
+    wnv = (math.tan(math.radians(angles[5]))) * (25) + int(vnv)
+    ynv = (math.tan(math.radians(angles[6]))) * (25) + int(elevations[6])
+    znv = (math.tan(math.radians(angles[6]))) * (25) + int(ynv)
+    aan = (math.tan(math.radians(angles[6]))) * (25) + int(znv)
+    ccn = (math.tan(math.radians(angles[7]))) * (25) + int(elevations[7])
+    ddn = (math.tan(math.radians(angles[7]))) * (25) + int(ccn)
+    een = (math.tan(math.radians(angles[7]))) * (25) + int(ddn)
+    ggn = (math.tan(math.radians(angles[8]))) * ((-25) * (-1)) + int(elevations[8])
+    hhn = (math.tan(math.radians(angles[8]))) * ((-25) * (-1)) + int(ggn)
+    iin = (math.tan(math.radians(angles[8]))) * ((-25) * (-1)) + int(hhn)
+    kkn = (math.tan(math.radians(angles[9]))) * (25) + int(elevations[9])
+    lln = (math.tan(math.radians(angles[9]))) * (25) + int(kkn)
+    mmn = (math.tan(math.radians(angles[9]))) * (25) + int(lln)
+
+    new_elevations_to_25m = [
+        anv,
+        bnv,
+        cnv,
+        env,
+        fnv,
+        gnv,
+        inv,
+        jnv,
+        knv,
+        mnv,
+        nnv,
+        onv,
+        qnv,
+        rnv,
+        snv,
+        unv,
+        vnv,
+        wnv,
+        ynv,
+        znv,
+        aan,
+        ccn,
+        ddn,
+        een,
+        ggn,
+        hhn,
+        iin,
+        kkn,
+        lln,
+        mmn,
+    ]
+    new_distances_25m = [
+        25,
+        50,
+        75,
+        125,
+        150,
+        175,
+        225,
+        250,
+        275,
+        325,
+        350,
+        375,
+        425,
+        450,
+        475,
+        525,
+        550,
+        575,
+        625,
+        650,
+        675,
+        725,
+        750,
+        775,
+        825,
+        850,
+        875,
+        925,
+        950,
+        975,
+    ]
+
+    return new_elevations_to_25m, new_distances_25m
+
+
+def gen_plot_for_the_initial_values(
+    x_axis: list[float], y_axis: list[float], name_figure: str
+):
+    """
+    Função para gerar e salvar gráficos no formato png para os valores iniciais das cotas
 
     - x_axis: lista contendo os valores para o eixo x do tipo list;
     - y_axis: lista contendo os valores para o eixo y do tipo list;
@@ -248,16 +405,53 @@ def gen_plot(x_axis: list[float], y_axis: list[float], name_figure: str):
     plt.close("all")
 
 
+def gen_plot_for_the_new_values(
+    x_axis: list[float],
+    y_axis: list[float],
+    new_x_axis: list[float],
+    new_y_axis: list[float],
+    name_figure: str,
+):
+    """
+    Função para gerar e salvar gráficos no formato png para os novos valores das cotas
+
+    - x_axis: lista contendo os valores para o eixo x do tipo list;
+    - y_axis: lista contendo os valores para o eixo y do tipo list;
+    - name_figure: nome de saída para figura.
+    """
+
+    plt.subplot(1, 1, 1)
+    plt.plot(x_axis, y_axis, "ko-")
+    plt.plot(new_x_axis, new_y_axis, "ro")
+    plt.xlabel("Distância (m)")
+    plt.ylabel("Valor de cota (m)")
+    plt.grid(True)
+    plt.savefig(name_figure, dpi=500)
+    plt.close("all")
+
+
 if __name__ == "__main__":
     datas = read_file("dados.txt")
     id, elevations, distances = get_values(datas)
     angles = calculate_angles(elevations)
-    gen_plot(distances, elevations, "teste.png")
-    # print(angles)
-    # print(elevations)
+    new_elevations_to_20m, new_distances_to_20m = calculate_elevation_to_distance_20m(
+        elevations, angles
+    )
+    new_elevations_to_25m, new_distances_to_25m = calculate_elevation_to_distance_25m(
+        elevations, angles
+    )
+    gen_plot_for_the_initial_values(distances, elevations, "teste.png")
+    gen_plot_for_the_new_values(
+        distances, elevations, new_distances_to_20m, new_elevations_to_20m, "teste1.png"
+    )
+    gen_plot_for_the_new_values(
+        distances, elevations, new_distances_to_25m, new_elevations_to_25m, "teste2.png"
+    )
 
     x0 = distances
     y0 = elevations
-    spacing = 5
+    spacing = 20
     x = np.arange(np.min(x0), np.max(x0) + 0.01, spacing)
     y = cubic_spline(x, x0, y0)
+
+    gen_plot_for_the_new_values(x0, y0, x, y, "teste3.png")

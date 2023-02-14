@@ -2,7 +2,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-
 def linear_interpolation(x, y, x_new):
     """Função para realizar a interpolação linear entre dois pontos dados."""
     # Cálculo da reta
@@ -47,10 +46,10 @@ def calculate_cotas(x, y, spacing, option):
 
 
 # Dados de entrada
-x = [0, 100, 200, 300, 400]
-y = [0, 10, 20, 30, 40]
-spacing = 50
-option = "topografica"
+x = [0, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
+y = [382, 766, 796, 187, 490, 446, 647, 710, 755, 277, 480]
+spacing = 20
+option = "topographic"
 
 # Cálculo das cotas dos pontos intermediários
 x_new, y_new = calculate_cotas(x, y, spacing, option)
@@ -66,9 +65,11 @@ for i in range(len(x_new)):
 # # plt.plot(x_new, y_new, "ro", label="pontos intermediários")
 # plt.show()
 
-plt.figure(1)
 plt.subplot(1, 1, 1)
 plt.plot(x, y, "ko-")
+plt.plot(x_new, y_new, "ro")
 plt.xlabel("Distância (m)")
 plt.ylabel("Valor de cota (m)")
-plt.show()
+plt.grid(True)
+plt.savefig("bora", dpi=500)
+plt.close("all")
