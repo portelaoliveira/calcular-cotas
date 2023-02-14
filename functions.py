@@ -1,5 +1,9 @@
-import matplotlib.pyplot as plt
 import math
+
+import matplotlib.pyplot as plt
+import numpy as np
+
+# from scipy.interpolate import CubicSpline
 
 
 def read_file(filename: str) -> list[float]:
@@ -79,6 +83,62 @@ def calculate_angles(
     return angles
 
 
+def cubic_spline(
+    x: list | np.ndarray, x0: list | np.ndarray, y0: list | np.ndarray
+) -> list[float]:
+    """
+    Função para calcular o ângulo entre os pontos
+
+    - x: lista ou array contendo os valores de x que devem ser calculados os valores de y;
+    - x0: lista ou array contendo os valores de x em que y são conhecidos
+    - y0: lista ou array contendo os valores de y referentes a x0
+    - retorna uma lista dos valores de y interpolados a partir de x0 e y0
+    """
+
+    # return CubicSpline(x0,y0,bc_type='natural')(x).tolist()
+
+    x0 = np.asfarray(x0)
+    y0 = np.asfarray(y0)
+
+    xdiff = np.diff(x0)
+    dydx = np.diff(y0)
+    dydx /= xdiff
+
+    N = len(x0)
+
+    w = np.empty(N - 1, float)
+    z = np.empty(N, float)
+
+    w[0] = 0.0
+    z[0] = 0.0
+    for i in range(1, N - 1):
+        m = xdiff[i - 1] * (2 - w[i - 1]) + 2 * xdiff[i]
+        w[i] = xdiff[i] / m
+        z[i] = (6 * (dydx[i] - dydx[i - 1]) - xdiff[i - 1] * z[i - 1]) / m
+    z[-1] = 0.0
+
+    for i in range(N - 2, -1, -1):
+        z[i] = z[i] - w[i] * z[i + 1]
+
+    # find index (it requires x is already sorted)
+    index = x0.searchsorted(x)
+    np.clip(index, 1, N - 1, index)
+
+    xi1, xi0 = x0[index], x0[index - 1]
+    yi1, yi0 = y0[index], y0[index - 1]
+    zi1, zi0 = z[index], z[index - 1]
+    hi1 = xi1 - xi0
+
+    # calculate cubic
+    y = (
+        zi0 / (6 * hi1) * (xi1 - x) ** 3
+        + zi1 / (6 * hi1) * (x - xi0) ** 3
+        + (yi1 / hi1 - zi1 * hi1 / 6) * (x - xi0)
+        + (yi0 / hi1 - zi0 * hi1 / 6) * (xi1 - x)
+    )
+    return y
+
+
 def gen_plot(x_axis: list[float], y_axis: list[float], name_figure: str):
     plt.figure(1)
     plt.subplot(1, 1, 1)
@@ -96,3 +156,9 @@ if __name__ == "__main__":
     angles = calculate_angles(elevations)
     # print(angles)
     # print(elevations)
+
+    x0 = distances
+    y0 = elevations
+    spacing = 5
+    x = np.arange(np.min(x0), np.max(x0) + 0.01, spacing)
+    y = cubic_spline(x, x0, y0)
