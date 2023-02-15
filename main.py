@@ -61,8 +61,18 @@ while resposta == "2":
         print("Calculando...\n")
         option = "horizontal"
         x_new, y_new = calculate_cotas(distances, elevations, spacing, option)
-        gen_plot(distances, elevations, x_new, y_new)
-        save_csv(x_new, y_new)
+        gen_plot(
+            distances,
+            elevations,
+            x_new,
+            y_new,
+            f"horizontal_plane_with_spacing_{spacing}_m",
+        )
+        save_csv(
+            x_new,
+            y_new,
+            f"horizontal_plane_with_spacing__{spacing}_m",
+        )
         sleep(1)
 
     elif option == "2":
@@ -70,8 +80,18 @@ while resposta == "2":
         print("Calculando...\n")
         option = "topographic"
         x_new, y_new = calculate_cotas(distances, elevations, spacing, option)
-        gen_plot(distances, elevations, x_new, y_new)
-        save_csv(x_new, y_new)
+        gen_plot(
+            distances,
+            elevations,
+            x_new,
+            y_new,
+            f"following_the_topography_with_spacing_{spacing}_m",
+        )
+        save_csv(
+            x_new,
+            y_new,
+            f"following_the_topography_with_spacing__{spacing}_m",
+        )
         sleep(1)
 
     print("Processo finalizado com sucesso.\n")
@@ -95,5 +115,7 @@ while resposta == "2":
         print("Por favor, informe um número.")
         resposta = input("Digite um número, por favor:")
 
+
 sleep(1)
+print("\n")
 print("Programa encerrado.")

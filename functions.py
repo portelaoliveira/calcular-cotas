@@ -105,7 +105,11 @@ def calculate_cotas(
 
 
 def gen_plot(
-    x: list[float], y: list[float], x_new: list[float], y_new: list[float]
+    x: list[float],
+    y: list[float],
+    x_new: list[float],
+    y_new: list[float],
+    figure_name: str,
 ) -> None:
     """
     Função para plotar e salvar os valores das cotas iniciais e intermediárias.
@@ -113,7 +117,8 @@ def gen_plot(
     - x: lista com os valores iniciais para o eixo x;
     - y: lista com os valores iniciais para o eixo y;
     - x_new: lista com os novos valores para o eixo x;
-    - y_new: lista com os novos valores para o eixo y.
+    - y_new: lista com os novos valores para o eixo y;
+    - figure_name: nome da figura.
     """
 
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6))
@@ -126,28 +131,33 @@ def gen_plot(
     ax2.plot(x_new, y_new, "mo--")
     ax2.set_title("Cota dos pontos intermediários")
     ax2.set_xlabel("Distância (m)")
-    ax2.set_ylabel("Valor da cota (m")
+    ax2.set_ylabel("Valor da cota (m)")
 
     ax1.grid()
     ax2.grid()
     os.makedirs("figures/", exist_ok=True)
-    fig.savefig("figures/topographic2", dpi=500)
+    fig.savefig(f"figures/{figure_name}.png", dpi=500)
 
 
-def save_csv(x_new: list[float], y_new: list[float]) -> None:
+def save_csv(
+    x_new: list[float],
+    y_new: list[float],
+    table_name: str,
+) -> None:
     """
     Função para salvar as novas posições e cotas calculadas.
 
     - x_new: lista com os novos valores para o eixo x;
-    - y_new: lista com os novos valores para o eixo y.
+    - y_new: lista com os novos valores para o eixo y;
+    - table_name: nome da tabela.
     """
 
     # Criação do DataFrame com os resultados
     df = pd.DataFrame({"NOVA DISTÂNCIA (m)": x_new, "COTA INTERMEDIÁRIA (m)": y_new})
 
     # Escrita dos resultados em um arquivo csv
-    os.makedirs("table/", exist_ok=True)
-    df.to_csv("table/cotas_intermediarias.csv", index=False)
+    os.makedirs("tables/", exist_ok=True)
+    df.to_csv(f"tables/{table_name}.csv", index=False)
 
 
 if __name__ == "__main__":
