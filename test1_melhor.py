@@ -62,7 +62,6 @@ for i in range(len(x_new)):
 
 
 def gen_plot(x, y, x_new, y_new):
-    
     fig, (ax1, ax2) = plt.subplots(1, 2)
     fig.suptitle("Gráfico das cotas iniciais e intermediárias", fontsize=16)
     ax1.plot(x, y, "ko--")
