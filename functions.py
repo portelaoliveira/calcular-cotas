@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import pandas as pd
 import numpy as np
 
 
@@ -127,13 +128,22 @@ def gen_plot(x, y, x_new, y_new):
     fig.savefig("topographic2", dpi=500)
 
 
+def save_csv(x_new, y_new):
+    # Criação do DataFrame com os resultados
+    df = pd.DataFrame({"NOVA DISTÂNCIA (m)": x_new, "COTA INTERMEDIÁRIA (m)": y_new})
+
+    # Escrita dos resultados em um arquivo csv
+    df.to_csv("resultados.csv", index=False)
+
+
 if __name__ == "__main__":
     datas = read_file("dados.txt")
     _, elevations, distances = get_values(datas)
     spacing = 20
-    option = "topographic"
-    # option = "horizontal"
+    # option = "topographic"
+    option = "horizontal"
 
     # Cálculo das cotas dos pontos intermediários
     x_new, y_new = calculate_cotas(distances, elevations, spacing, option)
     gen_plot(distances, elevations, x_new, y_new)
+    save_csv(x_new, y_new)

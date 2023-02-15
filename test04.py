@@ -1,10 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-lista = list(range(20, 1000,20))
+lista = list(range(20, 1000, 20))
 print(lista)
 
-exit()
 # import pandas as pd
 
 # Dados de entrada
