@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
+import os
 
 
 def read_file(filename: str) -> list[float]:
@@ -49,6 +50,7 @@ def linear_interpolation(
     - x: lista com os valores para o eixo x;
     - y: lista com os valores para o eixo y;
     - x_new: lista com novos valores para o eixo x.
+    retorna os novos valores para y.
     """
     # Cálculo da reta
     a = (y[1] - y[0]) / (x[1] - x[0])
@@ -70,7 +72,8 @@ def calculate_cotas(
     - y: lista com os valores para o eixo y;
     - spacing: espaçamento entre os pontos que se deseja calcular;
     - option: escolha das opções para o espaçamento entre os marcos - projeção em um plano horizontal
-    ou acompanhando a topografia (option: horizontal ou topographic).
+    ou acompanhando a topografia (option: horizontal ou topographic);
+    retorna os valores das cotas dos pontos intermediários.
     """
     x_new = []
     y_new = []
@@ -101,17 +104,19 @@ def calculate_cotas(
     return x_new, y_new
 
 
-def gen_plot(x, y, x_new, y_new):
+def gen_plot(
+    x: list[float], y: list[float], x_new: list[float], y_new: list[float]
+) -> None:
     """
-    Função para calcular as cotas dos pontos intermediários.
+    Função para plotar e salvar os valores das cotas iniciais e intermediárias.
 
-    - x: lista com os valores para o eixo x;
-    - y: lista com os valores para o eixo y;
+    - x: lista com os valores iniciais para o eixo x;
+    - y: lista com os valores iniciais para o eixo y;
     - x_new: lista com os novos valores para o eixo x;
     - y_new: lista com os novos valores para o eixo y.
     """
 
-    fig, (ax1, ax2) = plt.subplots(1, 2)
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6))
     fig.suptitle("Gráfico das cotas iniciais e intermediárias", fontsize=16)
     ax1.plot(x, y, "ko--")
     ax1.set_title("Cota dos pontos iniciais")
@@ -125,23 +130,32 @@ def gen_plot(x, y, x_new, y_new):
 
     ax1.grid()
     ax2.grid()
-    fig.savefig("topographic2", dpi=500)
+    os.makedirs("figures/", exist_ok=True)
+    fig.savefig("figures/topographic2", dpi=500)
 
 
-def save_csv(x_new, y_new):
+def save_csv(x_new: list[float], y_new: list[float]) -> None:
+    """
+    Função para salvar as novas posições e cotas calculadas.
+
+    - x_new: lista com os novos valores para o eixo x;
+    - y_new: lista com os novos valores para o eixo y.
+    """
+
     # Criação do DataFrame com os resultados
     df = pd.DataFrame({"NOVA DISTÂNCIA (m)": x_new, "COTA INTERMEDIÁRIA (m)": y_new})
 
     # Escrita dos resultados em um arquivo csv
-    df.to_csv("resultados.csv", index=False)
+    os.makedirs("table/", exist_ok=True)
+    df.to_csv("table/cotas_intermediarias.csv", index=False)
 
 
 if __name__ == "__main__":
-    datas = read_file("dados.txt")
+    datas = read_file("datas/dados.txt")
     _, elevations, distances = get_values(datas)
     spacing = 20
-    # option = "topographic"
-    option = "horizontal"
+    option = "topographic"
+    # option = "horizontal"
 
     # Cálculo das cotas dos pontos intermediários
     x_new, y_new = calculate_cotas(distances, elevations, spacing, option)
