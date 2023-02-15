@@ -5,6 +5,7 @@
 ## Documentação de uso do programa
 
     Discente: Danilo Portela de Oliveira
+    Docente: Marcelo Peres Rocha
     Matrícula: 222105229
     Disciplina: PROGRAMAÇÃO PARA GEOCIÊNCIAS
 
