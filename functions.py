@@ -158,16 +158,3 @@ def save_csv(
     # Escrita dos resultados em um arquivo csv
     os.makedirs("tables/", exist_ok=True)
     df.to_csv(f"tables/{table_name}.csv", index=False)
-
-
-if __name__ == "__main__":
-    datas = read_file("datas/dados.txt")
-    _, elevations, distances = get_values(datas)
-    spacing = 20
-    option = "topographic"
-    # option = "horizontal"
-
-    # Cálculo das cotas dos pontos intermediários
-    x_new, y_new = calculate_cotas(distances, elevations, spacing, option)
-    gen_plot(distances, elevations, x_new, y_new)
-    save_csv(x_new, y_new)
