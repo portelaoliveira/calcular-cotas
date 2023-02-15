@@ -26,11 +26,11 @@ while resposta == "2":
 
     spacing = float(spacing)
 
-    while spacing > 100:
+    while spacing >= 100:
         print(
             """
             O espaçamento que deseja-se calcular é maior que o espaçamento entre os pontos iniciais (100 m).\n
-            Por favor, informe um valor menor ou igual a 100 m.
+            Por favor, informe um valor menor que 100 m.
             """
         )
         spacing = float(input("Digite o espaçamento das cotas a serem calculadas: "))
