@@ -157,4 +157,4 @@ def save_csv(
 
     # Escrita dos resultados em um arquivo csv
     os.makedirs("tables/", exist_ok=True)
-    df.to_csv(f"tables/{table_name}.csv", index=False)
+    df.to_csv(f"tables/{table_name}.csv", index=False, sep=";")
