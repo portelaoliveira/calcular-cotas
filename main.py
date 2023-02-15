@@ -7,7 +7,13 @@ while resposta == "2":
     file = input("Digite o nome do arquivo: ")
     file_exists = os.path.exists(f"datas/{file}")
 
-    while len(file) == 0 or file_exists == False:
+    while (
+        len(file) == 0
+        or file_exists == False
+        or file == "."
+        or file == ";"
+        or file == "/"
+    ):
         print(
             "O nome do arquivo não existe, por favor, informe um arquivo .txt válido."
         )
@@ -26,11 +32,11 @@ while resposta == "2":
 
     spacing = float(spacing)
 
-    while spacing >= 100:
+    while spacing >= 100 or spacing <= 0:
         print(
             """
             O espaçamento que deseja-se calcular é maior que o espaçamento entre os pontos iniciais (100 m).\n
-            Por favor, informe um valor menor que 100 m.
+            Por favor, informe um valor menor que 100 m e que não seja negativo ou menor que 0 m.
             """
         )
         spacing = float(input("Digite o espaçamento das cotas a serem calculadas: "))
@@ -112,8 +118,8 @@ while resposta == "2":
         or int(resposta) > 2
         or int(resposta) <= 0
     ):
-        print("Por favor, informe um número.")
-        resposta = input("Digite um número, por favor:")
+        print("Por favor, informe um número válido.")
+        resposta = input("Digite um número válido, por favor:")
 
 
 sleep(1)
