@@ -1,0 +1,3 @@
+QProgressBar {
+  color: #eee;
+}

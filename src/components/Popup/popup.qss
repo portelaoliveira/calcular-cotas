@@ -1,0 +1,41 @@
+QLabel {
+  background-color: #f5f4f9;
+  qproperty-alignment: AlignCenter;
+}
+
+QDialog {
+  background-color: #f5f4f9;
+}
+
+QPushButton {
+  background-color: #fd788b;
+  max-width: 404px;
+  min-width: 404px;
+  height: 48px;
+  font-size: 20px;
+}
+
+QPushButton:hover {
+  background-color: #fe6694;
+}
+
+QPushButton:pressed {
+  background-color: #febecc;
+}
+
+.icon {
+  margin-top: 12px;
+  max-height: 48px;
+  max-width: 48px;
+  margin-left: auto;
+  qproperty-alignment: AlignCenter AlignVCenter;
+}
+
+.title {
+  margin-top: 12px;
+  max-height: 26.67px;
+  font-weight: bold;
+  color: #252f32;
+  margin-right: auto;
+  qproperty-alignment: AlignCenter AlignVCenter;
+}

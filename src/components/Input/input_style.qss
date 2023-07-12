@@ -1,0 +1,34 @@
+QLineEdit {
+  background-color: #eaedf4;
+}
+
+QPushButton {
+  background-color: #f5f4f9;
+  color: #989898;
+  padding: 8px;
+}
+
+QPushButton:hover {
+  background-color: #e3e1e8;
+}
+
+QPushButton:pressed {
+  background-color: #bfbec2;
+  color: #fff;
+}
+
+.label_path {
+  background-color: #f5f4f9;
+  border-radius: 4px;
+  border: 1px solid #e4e3e9;
+  padding: 8px;
+  margin-top: 4px;
+  font-size: 16px;
+  color: #989898;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.label_error {
+  border: 2px solid #ce0606;
+}
