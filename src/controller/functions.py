@@ -281,7 +281,3 @@ def gen_intermediate_cotas(
 
     if on_success is not None:
         on_success()
-
-
-if __name__ == "__main__":
-    gen_intermediate_cotas("../../datas/dados.txt")
