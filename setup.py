@@ -6,21 +6,17 @@ from pathlib import Path
 
 from cx_Freeze import Executable, setup
 
-name = "SARs"
-version = "4.7"
+name = "calculate_intermediate_cotas"
+version = "1.0"
 build_folder = Path(f"build/{name} v{version}")
 
 src_path = Path("src")
 resources_path = Path("resources")
 qss_files = src_path.rglob("*.qss")
 includes = [(qss, resources_path / "styles" / qss.name) for qss in qss_files]
-includes.append(("venv/Lib/site-packages/pyproj.libs", "lib/pyproj.libs"))
-includes.append("templates")
 includes.append("tutorial/Tutorial.pdf")
-includes.append("targets")
 if resources_path.exists():
     includes += [resources_path]
-includes.append(("bin/hugin", "bin/hugin"))
 
 # Dependencies are automatically detected, but it might need fine tuning.
 build_exe_options = {
