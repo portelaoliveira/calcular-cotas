@@ -171,7 +171,12 @@ def save_csv(
 
     # Escrita dos resultados em um arquivo csv
     os.makedirs(f"{path_folder}/tables/", exist_ok=True)
-    df.to_csv(f"{path_folder}/tables/{table_name}.csv", index=False, sep=";")
+    df.to_csv(
+        f"{path_folder}/tables/{table_name}.csv",
+        index=False,
+        sep=";",
+        encoding="utf-8-sig",
+    )
 
 
 def gen_intermediate_cotas(

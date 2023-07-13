@@ -1,4 +1,3 @@
-from pathlib import Path
 from typing import Optional
 
 from PyQt5.QtCore import Qt
@@ -75,15 +74,13 @@ class IntermediateQuotasViewer(QWidget):
 
         title = QLabel("Cotas intermediárias", parent=self)
         title.setAlignment(Qt.AlignCenter)
-        title.setStyleSheet(
-            """
+        title.setStyleSheet("""
                 QLabel {
                 color: #566164;
                 font-size: 20px;
                 font-weight: 700;
                 }
-            """
-        )
+            """)
 
         vertical_spacer = QSpacerItem(
             20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding
