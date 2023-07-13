@@ -1,7 +1,8 @@
-import matplotlib.pyplot as plt
-import pandas as pd
-import numpy as np
 import os
+
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
 
 
 def read_file(filename: str) -> list[float]:

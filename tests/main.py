@@ -1,6 +1,7 @@
-from src.controller.functions import *
 import os.path
 from time import sleep
+
+from src.controller.functions import *
 
 resposta = "2"
 while resposta == "2":
@@ -15,7 +16,8 @@ while resposta == "2":
         or file == "/"
     ):
         print(
-            "O nome do arquivo não existe, por favor, informe um arquivo .txt válido."
+            "O nome do arquivo não existe, por favor, informe um arquivo .txt"
+            " válido."
         )
 
         file = input("Digite o nome do arquivo: ")
@@ -39,7 +41,9 @@ while resposta == "2":
             Por favor, informe um valor menor que 100 m e que não seja negativo ou menor que 0 m.
             """
         )
-        spacing = float(input("Digite o espaçamento das cotas a serem calculadas: "))
+        spacing = float(
+            input("Digite o espaçamento das cotas a serem calculadas: ")
+        )
 
     print(
         """ 

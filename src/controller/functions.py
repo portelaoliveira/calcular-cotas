@@ -1,9 +1,9 @@
-import matplotlib.pyplot as plt
-import pandas as pd
-import numpy as np
 import os
-
 from typing import Callable, Optional
+
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
 
 
 def read_file(filename: str) -> list[float]:
@@ -28,19 +28,25 @@ def get_values(datas: list[float]) -> list[float]:
     - retorna uma lista com os valores.
     """
 
-    id = []
-    elevations = []
-    distances = []
-    # Definindo colunas
-    for i in range(1, len(datas)):
-        id_landmark = datas[i].split(",")[0]
-        id.append(id_landmark)
-        height = datas[i].split(",")[1]
-        elevations.append(float(height))
-        distance = datas[i].split(",")[2]
-        distances.append(float(distance))
+    try:
+        id = []
+        elevations = []
+        distances = []
 
-    return id, elevations, distances
+        # Definindo colunas
+
+        for i in range(1, len(datas)):
+            id_landmark = datas[i].split(",")[0]
+            id.append(id_landmark)
+            height = datas[i].split(",")[1]
+            elevations.append(float(height))
+            distance = datas[i].split(",")[2]
+            distances.append(float(distance))
+
+        return id, elevations, distances
+
+    except (ValueError, IndexError):
+        return None, None, None
 
 
 def linear_interpolation(
@@ -176,10 +182,45 @@ def gen_intermediate_cotas(
     on_success: Optional[Callable] = None,
     on_error: Optional[Callable] = None,
 ) -> None:
+    """
+    Função para gerar o resultado das cotas intermediárias.
+
+    - file_name_txt: entrar com o arquivo .txt;
+    - path_folder: path da pasta onde os arquivos gerados serão salvos;
+    - spacing_cotas_in: espaçamento entre os pontos que se deseja calcular.
+    - option_in: escolher se a projeção é no plano horizontal ou acompanhando a topografia.
+    - on_success: popup informando o status do processo.
+    - on_error: popup informando o status do processo.
+    """
+
     datas = read_file(file_name_txt)
+
+    if len(datas) == 0:
+        on_error("Arquivo .txt vazio. Verifique!")
+        return
+
     _, elevations, distances = get_values(datas)
-    spacing_between_starting_points = abs(distances[1] - distances[0])
+
+    if elevations is None or distances is None:
+        on_error(
+            "Conteúdo do arquivo .txt inválido. Verifique o conteúdo do"
+            " arquivo!"
+        )
+        return
+
+    spacing_between_starting_points = float(distances[1] - distances[0])
+
     spacing_cotas = float(spacing_cotas_in)
+
+    if spacing_cotas >= spacing_between_starting_points:
+        on_error(
+            "O espaçamento que deseja-se calcular é maior que o espaçamento"
+            " entre os pontos iniciais"
+            f" ({spacing_between_starting_points} m)\n informado na coluna"
+            " DISTÂNCIA no conteúdo do arquivo .txt de entrada."
+        )
+        return
+
     option_projection = option_in.lower()
 
     if option_projection == "horizontal":

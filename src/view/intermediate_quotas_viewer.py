@@ -16,7 +16,6 @@ from ..components.DropDown.dropdown import DropDown
 from ..components.Input.input_file import InputFile
 from ..components.Input.input_number import InputNumber
 from ..components.Popup.popup import Popup
-
 from ..controller.functions import gen_intermediate_cotas
 
 
@@ -69,27 +68,22 @@ class IntermediateQuotasViewer(QWidget):
         )
 
         self.success_popup = Popup(
-            title="Processamento finalizado",
-            text="Arquivo .xlsx processado com sucesso",
-            parent=self,
-        )
-
-        self.error_popup = Popup(
-            title="Erro no processamento!",
-            text="O arquivo .xlsx não foi processado com sucesso",
-            error=True,
+            title="Cálculo finalizado!",
+            text="Imagem e tabela gerada com sucesso!",
             parent=self,
         )
 
         title = QLabel("Cotas intermediárias", parent=self)
         title.setAlignment(Qt.AlignCenter)
-        title.setStyleSheet("""
+        title.setStyleSheet(
+            """
                 QLabel {
                 color: #566164;
                 font-size: 20px;
                 font-weight: 700;
                 }
-            """)
+            """
+        )
 
         vertical_spacer = QSpacerItem(
             20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding
@@ -155,14 +149,23 @@ class IntermediateQuotasViewer(QWidget):
                 spacing_cotas_in=self.interval.get_value(),
                 option_in=self.projection.get_value(),
                 on_success=self.on_success,
-                # on_error=self.on_error,
+                on_error=self.on_error,
             )
 
     def on_success(self):
         self.set_enabled_inputs(True)
         self.success_popup.exec()
 
-    def on_error(self):
+    def on_error(self, error: str):
         self.set_enabled_inputs(True)
-        self.error_popup.exec()
-        Path(self.out_file.file_path).unlink(missing_ok=True)
+
+        error_popup = Popup(
+            title=(
+                "Erro ao gerar a imagem e a tabela com as cotas"
+                " intermediárias!"
+            ),
+            text=f"{error}",
+            error=True,
+            parent=self,
+        )
+        error_popup.exec()

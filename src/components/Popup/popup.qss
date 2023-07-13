@@ -8,7 +8,7 @@ QDialog {
 }
 
 QPushButton {
-  background-color: #fd788b;
+  background-color: #7e0a7e;
   max-width: 404px;
   min-width: 404px;
   height: 48px;
@@ -16,11 +16,11 @@ QPushButton {
 }
 
 QPushButton:hover {
-  background-color: #fe6694;
+  background-color: #720872;
 }
 
 QPushButton:pressed {
-  background-color: #febecc;
+  background-color: #650567;
 }
 
 .icon {
